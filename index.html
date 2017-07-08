@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.1.0/exif.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/2.12.2/load-image.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/2.12.2/load-image-scale.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/2.12.2/load-image-orientation.min.js"></script>
+</head>
+<body>
+<div>
+    original image: <br/>
+    <img id="img" src="images/3.jpg"/>
+</div>
+<div>
+    image after transform: <br/>
+    <div id="container">
+
+    </div>
+</div>
+<script>
+    var src = document.getElementById("img").getAttribute("src");
+    window.loadImage(src, function (img) {
+        if (img.type === "error") {
+            console.log("couldn't load image:", img);
+        } else {
+            window.EXIF.getData(img, function () {
+                console.log("done!");
+                var orientation = window.EXIF.getTag(this, "Orientation");
+                var canvas = window.loadImage.scale(img, {orientation: orientation || 0, canvas: true});
+                document.getElementById("container").appendChild(canvas);
+                // or using jquery $("#container").append(canvas);
+            });
+        }
+    });
+</script>
+</body>
+</html>

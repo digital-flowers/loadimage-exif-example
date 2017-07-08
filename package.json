@@ -1,0 +1,23 @@
+{
+  "name": "loadimage-exif-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server -a localhost -p 9090",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/digital-flowers/loadimage-exif-example.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/digital-flowers/loadimage-exif-example/issues"
+  },
+  "homepage": "https://github.com/digital-flowers/loadimage-exif-example#readme",
+  "dependencies": {
+    "http-server": "^0.10.0"
+  }
+}

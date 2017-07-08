@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.1.0/exif.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/2.12.2/load-image.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/2.12.2/load-image-scale.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-load-image/2.12.2/load-image-orientation.min.js"></script>
+</head>
+<body>
+<div>
+    Upload image: <br/>
+    <input id="upload" type="file" accept="image/*"/>
+</div>
+<div>
+    original image: <br/>
+    <div id="container1">
+    </div>
+</div>
+<div>
+    image after transform: <br/>
+    <div id="container2">
+    </div>
+</div>
+
+<script>
+    document.getElementById("upload").addEventListener("change", function (evt) {
+        var image = evt.target.files[0]; // FileList object
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
+            var reader = new FileReader();
+            // Closure to capture the file information.
+            reader.addEventListener("load", function (e) {
+                const imageData = e.target.result;
+                const imageElement = document.createElement("img");
+                imageElement.setAttribute("src", imageData);
+                document.getElementById("container1").appendChild(imageElement);
+                window.loadImage(imageData, function (img) {
+                    if (img.type === "error") {
+                        console.log("couldn't load image:", img);
+                    } else {
+                        window.EXIF.getData(img, function () {
+                            console.log("done!");
+                            var orientation = window.EXIF.getTag(this, "Orientation");
+                            var canvas = window.loadImage.scale(img, {orientation: orientation || 0, canvas: true});
+                            document.getElementById("container2").appendChild(canvas);
+                            // or using jquery $("#container").append(canvas);
+                        });
+                    }
+                });
+            });
+            reader.readAsDataURL(image);
+        } else {
+            console.log('The File APIs are not fully supported in this browser.');
+        }
+    });
+</script>
+</body>
+</html>

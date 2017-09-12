@@ -5,7 +5,7 @@ how to run:
 
 1- install node server to run on localhost:
 ```
-npm run inistall
+npm install
 ```
 2- start server
 ```
